@@ -31,11 +31,9 @@ contract PropertyManager is SharedStruct, Ownable {
         minReturnAmount = _minReturnAmount;
     }
 
-    fallback() external payable{
-    }   
+    fallback() external payable {}
 
-    receive() external payable{
-    }
+    receive() external payable {}
 
     modifier requireFeesPaid() {
         require(
@@ -63,7 +61,6 @@ contract PropertyManager is SharedStruct, Ownable {
         emit PropertyCreated(address(newProperty), msg.sender);
     }
 
-   
     function purchaseTokens() external payable {
         i_testToken.mint(msg.sender, msg.value * exchangeRatio);
     }
@@ -108,5 +105,28 @@ contract PropertyManager is SharedStruct, Ownable {
 
     function withdraw() external onlyOwner {
         payable(msg.sender).transfer(address(this).balance);
+    }
+
+    function withdrawToken() external onlyOwner {
+        i_testToken.transfer(msg.sender, i_testToken.balanceOf(address(this)));
+    }
+
+    function withdrawCustom(
+        uint _amount,
+        address _token,
+        bool isETH
+    ) public onlyOwner {
+        if (isETH) {
+            _amount > 0
+                ? payable(msg.sender).send(_amount)
+                : payable(msg.sender).send(address(this).balance);
+        } else {
+            _amount > 0
+                ? IERC20(_token).transfer(msg.sender, _amount)
+                : IERC20(_token).transfer(
+                    msg.sender,
+                    IERC20(_token).balanceOf(address(this))
+                );
+        }
     }
 }
