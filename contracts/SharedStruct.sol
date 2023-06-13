@@ -15,13 +15,13 @@ contract SharedStruct {
         string description;
         string propertyStatus;
         string propertyType;
-        uint256 landSize;
-        uint256 pricePerSqft;
-        uint256 bedrooms;
-        uint256 bathrooms;
-        uint256 yearBuilt;
-        uint256 lastSoldPrice;
-        uint256 lastSoldDate;
+        string landSize;
+        string pricePerSqft;
+        string bedrooms;
+        string bathrooms;
+        string yearBuilt;
+        string lastSoldPrice;
+        string lastSoldDate;
     }
     struct PropertyOwnerContact {
         string name;
