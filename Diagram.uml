@@ -1,0 +1,77 @@
+@startuml
+
+class SharedStruct {
+}
+
+class PropertyAddress {
+}
+
+class PropertyData {
+}
+
+class PropertyOwnerContact {
+}
+
+SharedStruct <|-- PropertyAddress
+SharedStruct <|-- PropertyData
+SharedStruct <|-- PropertyOwnerContact
+
+class Ownable {
+}
+
+class Property {
+  +propertyAddress : PropertyAddress
+  +propertyData : PropertyData
+  +propertyOwnerContact : PropertyOwnerContact
+  +imagesCid : string[]
+  +Property(propertyAddress : PropertyAddress, propertyData : PropertyData, propertyOwnerContact : PropertyOwnerContact, imagesCid : string[]) : void
+  +updatePropertyAddress(_propertyAddress : PropertyAddress) : void {onlyOwner}
+  +updatePropertyData(_propertyData : PropertyData) : void {onlyOwner}
+  +updatePropertyOwnerContact(_propertyOwnerContact : PropertyOwnerContact) : void {onlyOwner}
+  +updateImagesCid(_imagesCid : string[]) : void {onlyOwner}
+  +getImagesCid() : string[]
+}
+
+Property --|> SharedStruct
+Property --|> Ownable
+
+class TestToken {
+}
+
+class ERC20 {
+}
+
+class ERC20Burnable {
+}
+
+class AccessControl {
+}
+
+TestToken --|> ERC20
+TestToken --|> ERC20Burnable
+TestToken --|> AccessControl
+
+class PropertyManager {
+  +i_testToken : TestToken
+  +properties : Property[]
+  +fee : double
+  +exchangeRatio : double
+  +returnPenalty : double
+  +minReturnAmount : double
+  +PropertyManager(fee : double, i_testToken : TestToken, exchangeRatio : double, returnPenalty : double, minReturnAmount : double) : void
+  +createNewProperty(propertyAddress : PropertyAddress, propertyData : PropertyData, propertyOwnerContact : PropertyOwnerContact, imagesCid : string[]) : void {requireFeesPaid}
+  +purchaseTokens() : void
+  +returnTokens() : void
+  +updateExchangeRatio(newRatio : double) : void {onlyOwner}
+  +updateReturnPenalty(newPenalty : double) : void {onlyOwner}
+  +updateMinReturnAmount(newMinReturnAmount : double) : void {onlyOwner}
+  +updateFee(newFee : double) : void {onlyOwner}
+  +getProperties() : Property[]
+  +withdraw() : void {onlyOwner}
+  +withdrawToken() : void {onlyOwner}
+  +withdrawCustom(amount : double, token : ERC20) : void {onlyOwner}
+}
+
+PropertyManager --|> Ownable
+
+@enduml

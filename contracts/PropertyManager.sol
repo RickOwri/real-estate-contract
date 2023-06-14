@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-3.0
-
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -8,15 +7,27 @@ import "contracts/SharedStruct.sol";
 import "contracts/Property.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
+/**
+ * @title PropertyManager
+ * @dev A contract for managing properties, their creation, token purchases, and token returns.
+ */
 contract PropertyManager is SharedStruct, Ownable {
     TestToken immutable i_testToken;
-    Property[] public properties; //contract address of properties
+    Property[] public properties; // Contract addresses of properties
     uint256 public fee;
     uint256 public exchangeRatio;
     uint256 public returnPenalty;
     uint256 public minReturnAmount;
     event PropertyCreated(address indexed property, address indexed owner);
 
+    /**
+     * @dev Constructor function
+     * @param _fee The fee amount required to create a new property
+     * @param _testToken The address of the TestToken contract
+     * @param _exchangeRatio The exchange ratio of ETH to TestToken
+     * @param _returnPenalty The penalty percentage applied when returning tokens
+     * @param _minReturnAmount The minimum return amount required when returning tokens
+     */
     constructor(
         uint256 _fee,
         TestToken _testToken,
@@ -35,6 +46,9 @@ contract PropertyManager is SharedStruct, Ownable {
 
     receive() external payable {}
 
+    /**
+     * @dev Modifier to require payment of fees
+     */
     modifier requireFeesPaid() {
         require(
             i_testToken.transferFrom(msg.sender, address(this), fee),
@@ -43,6 +57,13 @@ contract PropertyManager is SharedStruct, Ownable {
         _;
     }
 
+    /**
+     * @dev Creates a new property
+     * @param _propertyAddress The address details of the property
+     * @param _propertyData The data associated with the property
+     * @param _propertyOwnerContact The contact information of the property owner
+     * @param _imagesCid The array of content identifiers (CID) for the property images
+     */
     function createNewProperty(
         PropertyAddress memory _propertyAddress,
         PropertyData memory _propertyData,
@@ -56,77 +77,29 @@ contract PropertyManager is SharedStruct, Ownable {
             _imagesCid
         );
         properties.push(newProperty);
-        // mapping (PropertyAddress => uint) name; // unit number | buildingnumber | ->property Contract A
         newProperty.transferOwnership(msg.sender);
         emit PropertyCreated(address(newProperty), msg.sender);
     }
 
+    /**
+     * @dev Allows users to purchase tokens by sending ETH
+     */
     function purchaseTokens() external payable {
         i_testToken.mint(msg.sender, msg.value * exchangeRatio);
     }
 
+    /**
+     * @dev Allows users to return tokens and receive ETH in return
+     * @param amount The amount of tokens to return
+     */
     function returnTokens(uint256 amount) external payable {
         require(
             amount > minReturnAmount,
             "Amount must be greater than minReturnAmount"
         );
-        // check token balance of user from mapping
         require(
             i_testToken.balanceOf(msg.sender) >= amount,
             "Insufficient balance"
         );
         uint256 penaltyAmount = (amount * returnPenalty) / 100;
         uint256 returnAmount = (amount - penaltyAmount) / exchangeRatio;
-        i_testToken.burnFrom(msg.sender, amount); // approve it first
-        payable(msg.sender).transfer(returnAmount);
-    }
-
-    function updateExchangeRatio(uint256 _exchangeRatio) external onlyOwner {
-        exchangeRatio = _exchangeRatio;
-    }
-
-    function updateReturnPenalty(uint256 _returnPenalty) external onlyOwner {
-        returnPenalty = _returnPenalty;
-    }
-
-    function updateMinReturnAmount(
-        uint256 _minReturnAmount
-    ) external onlyOwner {
-        minReturnAmount = _minReturnAmount;
-    }
-
-    function updateFee(uint256 _fee) external onlyOwner {
-        fee = _fee;
-    }
-
-    function getProperties() external view returns (Property[] memory) {
-        return properties;
-    }
-
-    function withdraw() external onlyOwner {
-        payable(msg.sender).transfer(address(this).balance);
-    }
-
-    function withdrawToken() external onlyOwner {
-        i_testToken.transfer(msg.sender, i_testToken.balanceOf(address(this)));
-    }
-
-    function withdrawCustom(
-        uint _amount,
-        address _token,
-        bool isETH
-    ) public onlyOwner {
-        if (isETH) {
-            _amount > 0
-                ? payable(msg.sender).send(_amount)
-                : payable(msg.sender).send(address(this).balance);
-        } else {
-            _amount > 0
-                ? IERC20(_token).transfer(msg.sender, _amount)
-                : IERC20(_token).transfer(
-                    msg.sender,
-                    IERC20(_token).balanceOf(address(this))
-                );
-        }
-    }
-}
