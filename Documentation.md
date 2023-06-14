@@ -32,19 +32,19 @@ The `Property` contract represents a property with its address, data, owner cont
 
    - Updates the data associated with the property.
    - Parameters: `PropertyData` (\_propertyData)
-   - Modifier: `onlyOwner` (can only be called by the contract owner)
+   - Modifier: `onlyOwner` 
 
 3. `updatePropertyOwnerContact`
 
    - Updates the contact information of the property owner.
    - Parameters: `PropertyOwnerContact` (\_propertyOwnerContact)
-   - Modifier: `onlyOwner` (can only be called by the contract owner)
+   - Modifier: `onlyOwner` 
 
 4. `updateImagesCid`
 
    - Updates the array of content identifiers (CID) for the property images.
    - Parameters: `string[]` (\_imagesCid)
-   - Modifier: `onlyOwner` (can only be called by the contract owner)
+   - Modifier: `onlyOwner` 
 
 5. `getImagesCid`
    - Retrieves the array of content identifiers (CID) for the property images.
@@ -120,3 +120,51 @@ The contract defines two constant variables:
 
 - `MINTER_ROLE`: Represents the role required to mint (create) new tokens.
 - `BURNER_ROLE`: Represents the role required to burn (destroy) tokens.
+
+
+# Script Documentation
+
+
+## Script Deployment
+
+The TypeScript code defines a function named `deployProperty` that handles the deployment of the Property contract. This function takes a single parameter `hre`, which represents the HardhatRuntimeEnvironment object.
+
+Within the `deployProperty` function, it deploys a contract named "TestToken" using the `deploy` method. The deployment includes specifying the deployer account, empty constructor arguments, and the number of block confirmations to wait for.
+
+After the deployment, the function logs the deployment address of the `TestToken` contract. It also verifies the deployed contract on Etherscan if the network is not a development network.
+
+The `deployProperty` function serves as an entry point for deploying the Property contract and can be executed using appropriate deployment commands or scripts.
+
+The code focuses on the deployment aspect, allowing for customization and flexibility in deploying the Property contract. It integrates with the Hardhat framework and leverages the provided runtime environment for deployment operations.
+
+## PropertyManager Smart Contract Deployment
+
+The script provided is designed to deploy the PropertyManager smart contract using Hardhat, a popular development environment for Ethereum. 
+
+### Smart Contract Parameters
+
+- **FEE**: A fee for creating new properties (expressed in ethers).
+- **TEST_TOKEN_ADDRESS**: The address of the TestToken contract.
+- **EXCHANGE_RATIO**: The ratio of ethers to TestTokens for exchanges.
+- **RETURN_PENALTY**: The penalty percentage for returning tokens.
+- **MIN_RETURN_AMOUNT**: The minimum number of tokens that can be returned.
+
+### Deploy Function
+
+`deployProperty` is the deploy function for the PropertyManager smart contract. It retrieves the necessary components from the Hardhat runtime environment including the deployer's account and the network's chain ID.
+
+#### Arguments
+
+The arguments for the PropertyManager contract constructor are set using the predefined constants.
+
+#### Deployment Process
+
+The function logs the start of the deployment process and deploys the PropertyManager contract with the specified arguments. Once deployed, it logs the contract's address.
+
+#### Verification
+
+If not on a development chain and an Etherscan API key is present, the function also verifies the contract on Etherscan.
+
+#### Export and Tags
+
+Finally, the deploy function is exported for use in other modules and tagged for easy reference.
