@@ -1,77 +1,90 @@
 @startuml
 
+class Property {
+  -propertyAddress: PropertyAddress
+  -propertyData: PropertyData
+  -propertyOwnerContact: PropertyOwnerContact
+  -imagesCid: String[]
+  +Property(PropertyAddress, PropertyData, PropertyOwnerContact, String[]): void
+  +updatePropertyAddress(): void
+  +updatePropertyData(): void
+  +updatePropertyOwnerContact(): void
+  +updateImagesCid(): void
+  +getImagesCid(): String[]
+}
+
+class PropertyManager {
+  -i_testToken: TestToken
+  -properties: Property[]
+  -fee: int
+  -exchangeRatio: float
+  -returnPenalty: float
+  -minReturnAmount: int
+  +PropertyManager(int, TestToken, float, float, int): void
+  +createNewProperty(): void
+  +purchaseTokens(): void
+  +returnTokens(): void
+  +updateExchangeRatio(): void
+  +updateReturnPenalty(): void
+  +updateMinReturnAmount(): void
+  +updateFee(): void
+  +getProperties(): Property[]
+  +withdraw(): void
+  +withdrawToken(): void
+  +withdrawCustom(): void
+}
+
 class SharedStruct {
 }
 
 class PropertyAddress {
+  +unitNumber: String
+  +street: String
+  +city: String
+  +state: String
+  +zip: String
+  +country: String
 }
 
 class PropertyData {
+  +name: String
+  +description: String
+  +propertyStatus: String
+  +propertyType: String
+  +landSize: String
+  +pricePerSqft: String
+  +bedrooms: String
+  +bathrooms: String
+  +yearBuilt: String
+  +lastSoldPrice: String
+  +lastSoldDate: String
 }
 
 class PropertyOwnerContact {
+  +name: String
+  +email: String
+  +phone: String
 }
 
-SharedStruct <|-- PropertyAddress
-SharedStruct <|-- PropertyData
-SharedStruct <|-- PropertyOwnerContact
-
-class Ownable {
-}
-
-class Property {
-  +propertyAddress : PropertyAddress
-  +propertyData : PropertyData
-  +propertyOwnerContact : PropertyOwnerContact
-  +imagesCid : string[]
-  +Property(propertyAddress : PropertyAddress, propertyData : PropertyData, propertyOwnerContact : PropertyOwnerContact, imagesCid : string[]) : void
-  +updatePropertyAddress(_propertyAddress : PropertyAddress) : void {onlyOwner}
-  +updatePropertyData(_propertyData : PropertyData) : void {onlyOwner}
-  +updatePropertyOwnerContact(_propertyOwnerContact : PropertyOwnerContact) : void {onlyOwner}
-  +updateImagesCid(_imagesCid : string[]) : void {onlyOwner}
-  +getImagesCid() : string[]
+class TestToken {
+  +MINTER_ROLE: String
+  +BURNER_ROLE: String
+  +TestToken(): void
+  +mint(String, int): void
+  +burn(String, int): void
 }
 
 Property --|> SharedStruct
-Property --|> Ownable
+Property --|> PropertyAddress
+Property --|> PropertyData
+Property --|> PropertyOwnerContact
 
-class TestToken {
-}
+PropertyManager --|> Property
 
-class ERC20 {
-}
+TestToken --|> PropertyManager
 
-class ERC20Burnable {
-}
-
-class AccessControl {
-}
-
-TestToken --|> ERC20
-TestToken --|> ERC20Burnable
-TestToken --|> AccessControl
-
-class PropertyManager {
-  +i_testToken : TestToken
-  +properties : Property[]
-  +fee : double
-  +exchangeRatio : double
-  +returnPenalty : double
-  +minReturnAmount : double
-  +PropertyManager(fee : double, i_testToken : TestToken, exchangeRatio : double, returnPenalty : double, minReturnAmount : double) : void
-  +createNewProperty(propertyAddress : PropertyAddress, propertyData : PropertyData, propertyOwnerContact : PropertyOwnerContact, imagesCid : string[]) : void {requireFeesPaid}
-  +purchaseTokens() : void
-  +returnTokens() : void
-  +updateExchangeRatio(newRatio : double) : void {onlyOwner}
-  +updateReturnPenalty(newPenalty : double) : void {onlyOwner}
-  +updateMinReturnAmount(newMinReturnAmount : double) : void {onlyOwner}
-  +updateFee(newFee : double) : void {onlyOwner}
-  +getProperties() : Property[]
-  +withdraw() : void {onlyOwner}
-  +withdrawToken() : void {onlyOwner}
-  +withdrawCustom(amount : double, token : ERC20) : void {onlyOwner}
-}
-
-PropertyManager --|> Ownable
+SharedStruct --|> PropertyAddress
+SharedStruct --|> PropertyData
+SharedStruct --|> PropertyOwnerContact
 
 @enduml
