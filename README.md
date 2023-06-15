@@ -1,4 +1,4 @@
-# Documentation: Smart Contract
+# Smart Contract
 
 ## Imported package
 
