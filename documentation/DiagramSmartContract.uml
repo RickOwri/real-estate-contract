@@ -49,6 +49,37 @@ class TestToken {
     + burn(address from, uint256 amount)
 }
 
+class PropertyAddress {
+      -  UnitNumber  string
+      -  Street  string
+      -  City  string
+      -  State  string
+      -  Zip  string
+      -  Country  string
+
+}
+class PropertyData {
+      -  Name  string
+      -  Description  string
+      -  PropertyStatus  string
+      -  PropertyType  string
+      -  LandSize  string
+      -  PricePerSqft  string
+      -  Bedrooms  string
+      -  Bathrooms  string
+      -  YearBuilt  string
+      -  LastSoldPrice  string
+      -  LastSoldDate  string
+
+}
+
+class PropertyOwnerContact {
+      -  Name  string
+      -  Email  string
+      -  Phone  string
+
+}
+
 Property --|> SharedStruct
 Property --|> Ownable
 PropertyManager --|> SharedStruct
@@ -60,6 +91,9 @@ TestToken --|> ERC20
 TestToken --|> ERC20Burnable
 TestToken --|> AccessControl
 
+PropertyAddress --|> Property 
+PropertyData --|> Property
+PropertyOwnerContact --|> Property
 
 
 @enduml

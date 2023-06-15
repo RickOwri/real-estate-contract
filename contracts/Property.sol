@@ -12,7 +12,7 @@ contract Property is SharedStruct, Ownable {
     PropertyAddress public propertyAddress;
     PropertyData public propertyData;
     PropertyOwnerContact public propertyOwnerContact;
-    string[] public imagesCid;
+  +[] public imagesCid   string
 
     /**
      * @dev Constructor function

@@ -10,37 +10,37 @@ contract SharedStruct {
      * @dev Represents the address details of a property.
      */
     struct PropertyAddress {
-        string unitNumber;
-        string street;
-        string city;
-        string state;
-        string zip;
-        string country;
+      + unitNumber   string
+      + street   string
+      + city   string
+      + state   string
+      + zip   string
+      + country   string
     }
 
     /**
      * @dev Represents the data associated with a property.
      */
     struct PropertyData {
-        string name;
-        string description;
-        string propertyStatus;
-        string propertyType;
-        string landSize;
-        string pricePerSqft;
-        string bedrooms;
-        string bathrooms;
-        string yearBuilt;
-        string lastSoldPrice;
-        string lastSoldDate;
+      + name   string
+      + description   string
+      + propertyStatus   string
+      + propertyType   string
+      + landSize   string
+      + pricePerSqft   string
+      + bedrooms   string
+      + bathrooms   string
+      + yearBuilt   string
+      + lastSoldPrice   string
+      + lastSoldDate   string
     }
 
     /**
      * @dev Represents the contact information of a property owner.
      */
     struct PropertyOwnerContact {
-        string name;
-        string email;
-        string phone;
+      + name   string
+      + email   string
+      + phone   string
     }
 }
