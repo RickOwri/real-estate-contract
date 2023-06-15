@@ -1,90 +1,65 @@
 @startuml
 
 class Property {
-  -propertyAddress: PropertyAddress
-  -propertyData: PropertyData
-  -propertyOwnerContact: PropertyOwnerContact
-  -imagesCid: String[]
-  +Property(PropertyAddress, PropertyData, PropertyOwnerContact, String[]): void
-  +updatePropertyAddress(): void
-  +updatePropertyData(): void
-  +updatePropertyOwnerContact(): void
-  +updateImagesCid(): void
-  +getImagesCid(): String[]
+    - PropertyAddress propertyAddress
+    - PropertyData propertyData
+    - PropertyOwnerContact propertyOwnerContact
+    - String[] imagesCid
+    + {constructor}()
+    + updatePropertyAddress()
+    + updatePropertyData()
+    + updatePropertyOwnerContact()
+    + updateImagesCid()
+    + getImagesCid()
 }
 
 class PropertyManager {
-  -i_testToken: TestToken
-  -properties: Property[]
-  -fee: int
-  -exchangeRatio: float
-  -returnPenalty: float
-  -minReturnAmount: int
-  +PropertyManager(int, TestToken, float, float, int): void
-  +createNewProperty(): void
-  +purchaseTokens(): void
-  +returnTokens(): void
-  +updateExchangeRatio(): void
-  +updateReturnPenalty(): void
-  +updateMinReturnAmount(): void
-  +updateFee(): void
-  +getProperties(): Property[]
-  +withdraw(): void
-  +withdrawToken(): void
-  +withdrawCustom(): void
+    - IERC20 i_testToken
+    - Property[] properties
+    - uint256 fee
+    - uint256 exchangeRatio
+    - uint256 returnPenalty
+    - uint256 minReturnAmount
+    + {constructor}()
+    + createNewProperty()
+    + purchaseTokens()
+    + returnTokens()
+    + updateExchangeRatio()
+    + updateReturnPenalty()
+    + updateMinReturnAmount()
+    + updateFee()
+    + getProperties()
+    + withdraw()
+    + withdrawToken()
+    + withdrawCustom()
 }
 
 class SharedStruct {
-}
-
-class PropertyAddress {
-  +unitNumber: String
-  +street: String
-  +city: String
-  +state: String
-  +zip: String
-  +country: String
-}
-
-class PropertyData {
-  +name: String
-  +description: String
-  +propertyStatus: String
-  +propertyType: String
-  +landSize: String
-  +pricePerSqft: String
-  +bedrooms: String
-  +bathrooms: String
-  +yearBuilt: String
-  +lastSoldPrice: String
-  +lastSoldDate: String
-}
-
-class PropertyOwnerContact {
-  +name: String
-  +email: String
-  +phone: String
+    PropertyAddress
+    PropertyData
+    PropertyOwnerContact
 }
 
 class TestToken {
-  +MINTER_ROLE: String
-  +BURNER_ROLE: String
-  +TestToken(): void
-  +mint(String, int): void
-  +burn(String, int): void
+    - DEFAULT_ADMIN_ROLE
+    - MINTER_ROLE
+    - BURNER_ROLE
+    + {constructor}()
+    + mint(address to, uint256 amount)
+    + burn(address from, uint256 amount)
 }
 
 Property --|> SharedStruct
-Property --|> PropertyAddress
-Property --|> PropertyData
-Property --|> PropertyOwnerContact
-
+Property --|> Ownable
+PropertyManager --|> SharedStruct
+PropertyManager --|> Ownable
+PropertyManager --|> TestToken
 PropertyManager --|> Property
+PropertyManager --|> IERC20
+TestToken --|> ERC20
+TestToken --|> ERC20Burnable
+TestToken --|> AccessControl
 
-TestToken --|> PropertyManager
 
-SharedStruct --|> PropertyAddress
-SharedStruct --|> PropertyData
-SharedStruct --|> PropertyOwnerContact
 
 @enduml
