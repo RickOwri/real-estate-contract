@@ -31,6 +31,7 @@ const deployProperty: DeployFunction = async function (
   });
 
   log(`TestToken deployed at ${testToken.address}`);
+  log(`TestToken deployed at ${testToken.address}`);
 
   // Verifies the TestToken contract on Etherscan if required
   if (
