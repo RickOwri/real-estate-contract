@@ -1,5 +1,8 @@
 # Documentation: Smart Contract Details
 
+# Schema of the smart contract fonctionnalities
+[!architecture of the smrt contract://github.com/RickOwri/real-estate-contract/blob/recompile/documentation/DiagramSmartContract.svg)
+
 ## Imported package
 
 - `./SharedStruct.sol`;
@@ -190,5 +193,4 @@ The constructor initializes the TestToken with the name `TestToken` and symbol `
 
 
 
-# Schema
-[schema](https://github.com/RickOwri/real-estate-contract/blob/recompile/documentation/DiagramSmartContract.svg)
+
