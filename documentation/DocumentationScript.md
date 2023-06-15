@@ -1,73 +1,41 @@
-# Ethereum Contract Interaction Script
+# Ethereum and Property Contract Interaction Scripts
 
-This script is responsible for managing roles in smart contracts on the Mumbai testnet.
+These scripts are designed to manage roles in smart contracts and interact with property contracts on the Mumbai testnet.
 
-## Functionality
+## General Functionality
 
-The script performs the following tasks:
+Each script follows a general process:
 
-### Wallet and Provider Configuration
+1. **Wallet and Provider Configuration:** Establish a connection to the Mumbai testnet using ethers.js JsonRpcProvider and create a wallet using a private key.
 
-A wallet is created using a private key and a connection is established to the Mumbai testnet using ethers.js JsonRpcProvider.
+2. **Contract Connection:** Connect to the relevant smart contract using the provided contract address and the signer from the created wallet.
 
-### Contract Connection
+3. **Contract Interaction:** Depending on the purpose of the script, it will then perform different tasks related to the connected contract.
 
-The script connects to the TestToken contract using the provided contract address and the signer from the created wallet.
+## Ethereum Contract Interaction Script
 
 ### Role Granting
 
-The script retrieves the MINTER_ROLE of the TestToken contract. It then grants this role to the PropertyManager contract using the `grantRole` function of the TestToken contract.
+This script connects to the `TestToken` contract and manages roles. Specifically, it retrieves the `MINTER_ROLE` of the `TestToken` contract and grants this role to the `PropertyManager` contract using the `grantRole` function.
 
+## Property Contract Interaction Script
 
+### Data Retrieval
 
-# Property Contract Interaction
+This script connects to the `Property` contract and retrieves and logs specific data, which includes:
 
-This script handles the interaction with the Property contract on the Mumbai testnet.
+- The contract owner's address.
+- The property data (The specific details included in the property data depend on the `Property` contract's design).
+- The image CID (points to images related to the property stored in a decentralized file storage system like IPFS).
 
-## Functionality
+## Property Creation Scripts
 
-The script performs the following tasks:
+These scripts interact with a `PropertyManager` contract and perform the following:
 
-### Contract Owner Retrieval
+### Owner Retrieval and Property Creation
 
-The script retrieves the owner of the Property contract and logs the owner's address to the console.
+They retrieve and log the owner of the `PropertyManager` contract. Then, they deploy a new property with predefined arguments, including details about location, description, status, type, size, owner's contact details, and image identifiers.
 
-### Property Data Retrieval
+### Transaction Receipt, Property Address Retrieval, and Transaction Hash Logging
 
-The script fetches the property data from the Property contract and logs this data. The specific details included in the property data depend on how the Property contract is designed.
-
-### Image CID Retrieval
-
-The script retrieves the image CID of the Property contract. This CID likely points to images related to the property stored in a decentralized file storage system like IPFS.
-
-# Property Creation Script
-
-This script is used to interact with a `PropertyManager` contract on the Mumbai testnet and deploy a new property.
-
-## Functionality
-
-### Contract Owner Retrieval
-
-The script retrieves and logs the owner of the `PropertyManager` contract.
-
-### Property Creation
-
-The script deploys a new property with predefined arguments, which includes details about:
-
-- Location
-- Description
-- Status
-- Type
-- Size
-- Owner's contact details
-- Image identifiers
-
-### Transaction Receipt and Property Address Retrieval
-
-After deploying the new property, the script waits for the transaction to be mined and retrieves the transaction receipt. It also retrieves the address of the deployed property. However, this part seems to be incomplete since the address is not logged or used further in the script.
-
-### Logging the Transaction Hash
-
-The script logs the transaction hash of the property creation transaction to the console.
-
-
+After deploying the new property, the scripts wait for the transaction to be mined and retrieve the transaction receipt. They also retrieve the address of the deployed property but it seems to be incomplete since the address is not logged or used further in the script. Finally, they log the transaction hash of the property creation transaction to the console.
