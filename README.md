@@ -1,7 +1,7 @@
 # Documentation: Smart Contract Details
 
 # Schema of the smart contract fonctionnalities
-[!architecture of the smrt contract://github.com/RickOwri/real-estate-contract/blob/recompile/documentation/DiagramSmartContract.svg)
+![architecture of the smrt contract](https://github.com/RickOwri/real-estate-contract/blob/recompile/documentation/DiagramSmartContract.svg)
 
 ## Imported package
 
