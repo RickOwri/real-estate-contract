@@ -1,4 +1,4 @@
-# Smart Contract
+# Documentation: Smart Contract Details
 
 ## Imported package
 
@@ -188,7 +188,5 @@ The constructor initializes the TestToken with the name `TestToken` and symbol `
     - `from`: The address to burn tokens from.
     - `amount`: The amount of tokens to burn.
 
-# Schema on smart contract fonctionnalities
-![architecture of the smrt contract](https://github.com/RickOwri/real-estate-contract/blob/recompile/documentation/DiagramSmartContract.svg)
 
 
